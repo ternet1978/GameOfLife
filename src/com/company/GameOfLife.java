@@ -9,11 +9,14 @@ public class GameOfLife {
 //        System.out.println("Hello world!");
 //        String hostAddress = InetAddress.getLocalHost().getHostAddress();
 //        System.out.println(hostAddress);
-        GameField g = new GameField();
-       while (true) {
-           g.simulateNextStep();
+        GameField g = new GameField();g.print();
+     //  while (true) {
+           for (int i = 0; i < 4; i++) {
 
-           g.print();
+
+           g.simulateNextStep();
+               g.print();
+
            Thread.sleep(500);
        }
     }

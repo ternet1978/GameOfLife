@@ -2,6 +2,7 @@ package com.company;
 
 import java.util.List;
 import java.util.Random;
+import java.util.stream.Stream;
 
 public class GameField {
     public static int SCREEN_HEIGHT = 20;
@@ -16,6 +17,7 @@ public class GameField {
 //                System.out.println("j = " + j);
                 Random r =  new Random();
 boolean isCellAlive = r.nextBoolean();
+             //   System.out.println(isCellAlive);
           gameScreen[i][j] = new Cell(i,j,isCellAlive);
             }
         }
@@ -30,13 +32,13 @@ boolean isCellAlive = r.nextBoolean();
             for (int j = 0; j < SCREEN_WIDTH; j++) {
                 Cell current = gameScreen[i][j];
                 // посчитать кол живых соседей
-                int aliveNeighbours = calculateNeighbours(current,gameScreen);
+                long aliveNeighbours = calculateNeighbours(current,gameScreen);
                 // если клетка мертва и соседей 3, то оживить
                 // если клетка жива и соседей 2/3 то жить
                 // иначе убить клетку
-                if (current.alive==false && aliveNeighbours == 3) {current.alive=true;}
+                if (!current.alive && aliveNeighbours == 3) {current.alive=true;}
                 else if (current.alive==true && (aliveNeighbours == 3 || aliveNeighbours == 2  ) ) {current.alive=true;}
-                else current.alive =true;
+                else current.alive =false;
 
 
             }
@@ -44,7 +46,7 @@ boolean isCellAlive = r.nextBoolean();
 
     }
 
-    private int calculateNeighbours(Cell cell, Cell[][] gameScreen) {
+    private long calculateNeighbours(Cell cell, Cell[][] gameScreen) {
 int x = cell.x;
 int y = cell.y;
 
@@ -62,7 +64,7 @@ var e = getCellByCoords(x+1,y,gameScreen);
 var f = getCellByCoords(x-1,y+1,gameScreen);
 var g = getCellByCoords(x,y+1,gameScreen);
 var h = getCellByCoords(x+1,y+1,gameScreen);
-return (int) List.of(a,b,c,d,e,f,g,h).stream()
+return Stream.of(a,b,c,d,e,f,g,h)
         .filter(ccell -> ccell !=null)  .filter(ccell -> ccell.alive)
         .count();
 
@@ -70,16 +72,16 @@ return (int) List.of(a,b,c,d,e,f,g,h).stream()
 
     }
 
-    private boolean isAliveCell(int x, int y, Cell[][] gameScreen){
+    private boolean isAliveCell(int x, int y, Cell[][] gameScreen)  throws NullPointerException{
         if (x<0 || y<0) return false;
         if (x>SCREEN_WIDTH || y>SCREEN_HEIGHT) return false;
         return gameScreen[x][y].alive;
     }
 
-    private Cell getCellByCoords(int x, int y, Cell[][] gameScreen){
+    private Cell getCellByCoords(int x, int y, Cell[][] gameScreen)throws NullPointerException{
         if (x<0 || y<0) return null;
-        if (x>SCREEN_WIDTH || y>SCREEN_HEIGHT) return false;
-        return gameScreen[x][y].alive;
+        if (x>=SCREEN_WIDTH || y>=SCREEN_HEIGHT) return null;
+        return gameScreen[y][x];
     }
 
 

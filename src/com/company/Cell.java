@@ -15,7 +15,7 @@ public char getPrintableChar(){
 }
    int neighboursCount;
 
-   public Cell(int x, int y, boolean alive) {
+   public Cell(int y, int x, boolean alive) {
       this.x = x;
       this.y = y;
       this.alive = alive;
