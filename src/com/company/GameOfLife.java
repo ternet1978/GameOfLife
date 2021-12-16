@@ -3,7 +3,7 @@ package com.company;
 import java.net.UnknownHostException;
 
 public class GameOfLife {
-
+//
     public static void main(String[] args) throws UnknownHostException, InterruptedException {
 	// write your code here
 //        System.out.println("Hello world!");

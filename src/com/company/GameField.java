@@ -78,7 +78,7 @@ var h = getCellByCoords(x+1,y+1,gameScreen);
 return Stream.of(a,b,c,d,e,f,g,h)
         .filter(ccell -> ccell !=null)  .filter(ccell -> ccell.alive)
         .count();
-
+//
 
 
     }

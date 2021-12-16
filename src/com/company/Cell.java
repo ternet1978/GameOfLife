@@ -4,7 +4,7 @@ public class Cell {
 
    public static char ALIVE_CELL = '@';
    public static char DEAD_CELL = '.';
-
+//
    int x;
    int y;
    boolean alive;
