@@ -1,14 +1,16 @@
 package com.company;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 import java.util.stream.Stream;
 
 public class GameField {
-    public static int SCREEN_HEIGHT = 20;
-    public static int SCREEN_WIDTH = 40;
+    public static int SCREEN_HEIGHT = 4;
+    public static int SCREEN_WIDTH = 5;
 
     Cell[][] gameScreen = new Cell[SCREEN_HEIGHT][SCREEN_WIDTH];
+    Cell[][] gameScreenTemp = new Cell[SCREEN_HEIGHT][SCREEN_WIDTH];
 
     public GameField() {
         for (int i = 0; i < SCREEN_HEIGHT; i++) {
@@ -19,6 +21,7 @@ public class GameField {
 boolean isCellAlive = r.nextBoolean();
              //   System.out.println(isCellAlive);
           gameScreen[i][j] = new Cell(i,j,isCellAlive);
+                gameScreenTemp[i][j] = new Cell(i,j,isCellAlive);
             }
         }
     }
@@ -31,19 +34,27 @@ boolean isCellAlive = r.nextBoolean();
         for (int i = 0; i < SCREEN_HEIGHT; i++) {
             for (int j = 0; j < SCREEN_WIDTH; j++) {
                 Cell current = gameScreen[i][j];
+                Cell currentTemp = gameScreenTemp[i][j];
                 // посчитать кол живых соседей
                 long aliveNeighbours = calculateNeighbours(current,gameScreen);
                 // если клетка мертва и соседей 3, то оживить
                 // если клетка жива и соседей 2/3 то жить
                 // иначе убить клетку
-                if (!current.alive && aliveNeighbours == 3) {current.alive=true;}
-                else if (current.alive==true && (aliveNeighbours == 3 || aliveNeighbours == 2  ) ) {current.alive=true;}
-                else current.alive =false;
+                if (!current.alive && aliveNeighbours == 3) {currentTemp.alive=true;}
+                else if (current.alive==true && (aliveNeighbours == 3 || aliveNeighbours == 2  ) ) {currentTemp.alive=true;}
+                else currentTemp.alive =false;
 
 
             }
         }
 
+        //восстанавливаем массив копированием
+        for (int i = 0; i < SCREEN_HEIGHT; i++) {
+            for (int j = 0; j < SCREEN_WIDTH; j++) {
+                gameScreen[i][j].alive = gameScreenTemp[i][j].alive;
+            }
+        }
+       // gameScreen = Arrays.copyOf(gameScreenTemp, gameScreenTemp.length);
     }
 
     private long calculateNeighbours(Cell cell, Cell[][] gameScreen) {
@@ -98,9 +109,10 @@ return Stream.of(a,b,c,d,e,f,g,h)
             System.out.println();
             
         }
-        System.out.println();
-        System.out.println("_______________________");
-        System.out.println();
+      //  CLS
+     System.out.println();
+      System.out.println("_______________________");
+       System.out.println();
     }
     
     
